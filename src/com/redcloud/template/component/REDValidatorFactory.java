@@ -9,12 +9,17 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.osgi.service.event.Event;
 
+import com.redcloud.template.model.MREDTemplate;
+
 public class REDValidatorFactory extends AbstractEventHandler {
 	private CLogger log = CLogger.getCLogger(REDValidatorFactory.class);
 
 	@Override
 	protected void initialize() {
 		registerEvent(IEventTopics.AFTER_LOGIN);
+		
+		// MREDTemplate
+		registerEvent(IEventTopics.PO_AFTER_NEW, MREDTemplate.Table_Name);
 
 		log.info("RED EVENT MANAGER // INITIALIZED");
 	}
@@ -29,6 +34,13 @@ public class REDValidatorFactory extends AbstractEventHandler {
 					+" AD_Org_ID="+eventData.getAD_Org_ID()+" AD_Role_ID="+eventData.getAD_Role_ID()
 					+" AD_User_ID="+eventData.getAD_User_ID());
 			Env.setContext(Env.getCtx(), "#RED_ACTIVATED", true);
+		}else{
+			PO po = getPO(event);
+			log.info("RED >> ModelValidator: topic="+event.getTopic()+" po="+po);
+			
+			if(po.get_TableName().equals(MREDTemplate.Table_Name)){
+				log.info("Example Event");
+			}
 		}
 		
 		if (msg!=null && msg.length() > 0)
