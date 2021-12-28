@@ -19,7 +19,7 @@ public class REDValidatorFactory extends AbstractEventHandler {
 		registerEvent(IEventTopics.AFTER_LOGIN);
 		
 		// MREDTemplate
-		registerEvent(IEventTopics.PO_AFTER_NEW, MREDTemplate.Table_Name);
+		registerTableEvent(IEventTopics.PO_AFTER_NEW, MREDTemplate.Table_Name);
 
 		log.info("RED EVENT MANAGER // INITIALIZED");
 	}
